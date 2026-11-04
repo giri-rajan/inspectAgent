@@ -1,0 +1,11 @@
+services:
+  api:
+    build: ./api
+    env_file: [{ path: .env, required: false }]
+    volumes: ["./data:/data"]
+    ports: ["8000:8000"]
+  web:
+    build: { context: ./web, args: { API_URL: "http://api:8000" } }
+    environment: [API_URL=http://api:8000]
+    depends_on: [api]
+    ports: ["3000:3000"]

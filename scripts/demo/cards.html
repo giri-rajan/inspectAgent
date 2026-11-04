@@ -1,0 +1,123 @@
+<!doctype html>
+<!-- Title, problem, architecture and closing cards for the demo video, in the app's Linear tokens (DESIGN.md).
+     record.mjs opens this page and calls show('<id>') to play each card. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+  :root{--bg:#010102;--surface:#0f1011;--raised:#141516;--line:#23252a;--line2:#34343a;--fg:#f7f8f8;--muted:#8a8f98;--accent:#5e6ad2;--accent2:#828fff;--fail:#eb5757;--pass:#4cb782}
+  *{box-sizing:border-box;margin:0}
+  html,body{height:100%;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .card{position:fixed;inset:0;display:none;padding:96px 120px}
+  .card.on{display:flex}
+  .in{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .on .in.go{opacity:1;transform:none}
+  /* title */
+  #title{flex-direction:column;justify-content:center}
+  #title .brand{display:flex;align-items:center;gap:24px}
+  #title h1{font-size:96px;font-weight:600;letter-spacing:-.035em}
+  #title p.lead{margin-top:28px;font-size:36px;color:var(--muted);letter-spacing:-.01em;max-width:1100px}
+  #title .models{margin-top:56px;display:flex;gap:12px;flex-wrap:wrap}
+  .chip{height:44px;display:inline-flex;align-items:center;gap:10px;padding:0 18px;border:1px solid var(--line2);border-radius:10px;background:var(--surface);font-size:19px}
+  .chip i{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .foot{position:absolute;left:120px;bottom:72px;font-size:18px;color:var(--muted)}
+  /* problem */
+  #problem{align-items:center;gap:88px}
+  #problem .txt{flex:1}
+  #problem .eyebrow{font-size:20px;color:var(--accent2);font-weight:500}
+  #problem h2{margin-top:18px;font-size:58px;line-height:1.1;font-weight:600;letter-spacing:-.03em}
+  #problem ul{margin-top:44px;padding:0;list-style:none;display:grid;gap:22px}
+  #problem li{display:flex;gap:18px;font-size:27px;line-height:1.35;color:var(--muted)}
+  #problem li b{color:var(--fg);font-weight:500}
+  #problem li span.n{flex:none;width:34px;height:34px;border-radius:8px;border:1px solid var(--line2);display:grid;place-items:center;font-size:16px;color:var(--fg);margin-top:2px}
+  #problem figure{width:600px;flex:none}
+  #problem figure img{width:100%;border-radius:14px;border:1px solid var(--line)}
+  #problem figcaption{margin-top:12px;font-size:16px;color:var(--muted)}
+  /* architecture */
+  #arch{flex-direction:column;justify-content:center}
+  #arch h2{font-size:52px;font-weight:600;letter-spacing:-.03em}
+  #arch p.sub{margin-top:12px;font-size:24px;color:var(--muted)}
+  .flow{margin-top:64px;display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  .box{position:relative;padding:24px 22px;border:1px solid var(--line2);border-radius:14px;background:var(--surface);min-height:210px}
+  .box.meta{border-color:var(--accent)}
+  .box .k{font-family:"JetBrains Mono",monospace;font-size:15px;color:var(--muted)}
+  .box h3{margin-top:12px;font-size:27px;font-weight:600;letter-spacing:-.015em}
+  .box p{margin-top:10px;font-size:18px;line-height:1.4;color:var(--muted)}
+  .box .tag{position:absolute;top:22px;right:20px;font-size:13px;font-weight:600;color:var(--accent2)}
+  .box:not(:last-child)::after{content:"";position:absolute;right:-20px;top:50%;width:20px;height:1px;background:var(--line2)}
+  .row2{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .row2 .box{min-height:0}
+  .row2 .box::after{display:none}
+  /* close */
+  #close{flex-direction:column;justify-content:center;align-items:flex-start}
+  #close h1{margin-top:36px;font-size:84px;font-weight:600;letter-spacing:-.035em}
+  #close .verbs{margin-top:26px;font-size:36px;color:var(--muted);letter-spacing:-.01em}
+  #close .verbs b{color:var(--fg);font-weight:500}
+  #close .url{margin-top:60px;font-size:28px;font-family:"JetBrains Mono",monospace;color:var(--accent2)}
+  #close .thanks{margin-top:18px;font-size:22px;color:var(--muted)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#5e6ad2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16" cy="16" r="2.4" fill="#fff"/><g fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" stroke-linecap="round"><path d="M16 13.2 Q19 10.5 18.6 7.4"/><path d="M16 13.2 Q19 10.5 18.6 7.4" transform="rotate(60 16 16)"/><path d="M16 13.2 Q19 10.5 18.6 7.4" transform="rotate(120 16 16)"/><path d="M16 13.2 Q19 10.5 18.6 7.4" transform="rotate(180 16 16)"/><path d="M16 13.2 Q19 10.5 18.6 7.4" transform="rotate(240 16 16)"/><path d="M16 13.2 Q19 10.5 18.6 7.4" transform="rotate(300 16 16)"/></g></symbol></defs></svg>
+
+<section class="card" id="title">
+  <div class="brand in"><svg width="88" height="88"><use href="#logo"/></svg><h1>InspectAgent</h1></div>
+  <p class="lead in">Zero-shot casting inspection on a phone. Describe defects in words; the factory’s own rules decide.</p>
+  <div class="models in">
+    <span class="chip"><i></i>SAM 3.1</span><span class="chip"><i></i>Muse Spark</span><span class="chip"><i></i>Muse Voice Transcribe</span><span class="chip">Meta Model API</span>
+  </div>
+  <div class="foot in">Meta AI Developer Hackathon · Push the Frontier</div>
+</section>
+
+<section class="card" id="problem">
+  <div class="txt">
+    <div class="eyebrow in">The problem</div>
+    <h2 class="in">Small foundries still check every casting by eye.</h2>
+    <ul>
+      <li class="in"><span class="n">1</span><span>Machine vision needs <b>thousands of labelled defect photos</b> and costly integration, so most small plants never adopt it.</span></li>
+      <li class="in"><span class="n">2</span><span>Defect rules live in an engineer’s head, and <b>no one can see why</b> a furnace or shift keeps making scrap.</span></li>
+      <li class="in"><span class="n">3</span><span>InspectAgent works <b>from the first part</b>, with no labelled data and no retraining.</span></li>
+    </ul>
+  </div>
+  <figure class="in"><img src="SAMPLE_IMG" alt=""><figcaption>Pump impeller, grey cast iron · the part used in this demo</figcaption></figure>
+</section>
+
+<section class="card" id="arch">
+  <h2 class="in">How it works</h2>
+  <p class="sub in">Models find and reason. Measurements and the factory’s rules stay deterministic and binding.</p>
+  <div class="flow">
+    <div class="box in"><div class="k">01 · capture</div><h3>Phone photo</h3><p>Any camera, plus furnace, shift, heat and supplier.</p></div>
+    <div class="box meta in"><span class="tag">META</span><div class="k">02 · find</div><h3>SAM 3.1</h3><p>Part outline and masks for each plain-word defect prompt.</p></div>
+    <div class="box in"><div class="k">03 · measure</div><h3>Millimetres</h3><p>Size, zone and clock position from the part’s known diameter.</p></div>
+    <div class="box in"><div class="k">04 · rules</div><h3>Rule engine</h3><p>The factory’s acceptance rules, written in plain English.</p></div>
+    <div class="box meta in"><span class="tag">META</span><div class="k">05 · judge</div><h3>Muse Spark</h3><p>Reads photo, measurements, rules and reviewed examples. Writes the verdict.</p></div>
+  </div>
+  <div class="row2">
+    <div class="box meta in"><span class="tag">META</span><div class="k">explain</div><h3>Root-cause agent</h3><p>Muse Spark tool calling over production history, then an 8D report.</p></div>
+    <div class="box in"><div class="k">learn</div><h3>Defect library</h3><p>Every confirm or reject becomes evidence for the next verdict.</p></div>
+    <div class="box meta in"><span class="tag">META</span><div class="k">talk</div><h3>Muse Voice Transcribe</h3><p>Spoken operator notes attached to the inspection.</p></div>
+  </div>
+</section>
+
+<section class="card" id="close">
+  <svg class="in" width="80" height="80"><use href="#logo"/></svg>
+  <h1 class="in">InspectAgent</h1>
+  <p class="verbs in"><b>Find.</b> <b>Measure.</b> <b>Judge.</b> <b>Explain.</b> <b>Learn.</b> From the first casting.</p>
+  <p class="url in">CLOSE_URL</p>
+  <p class="thanks in">Built on the Meta Model API · SAM 3.1 · Muse Spark · Muse Voice Transcribe</p>
+</section>
+
+<script>
+  // Reveal a card's .in elements one after another.
+  window.show = (id, step = 450) => {
+    document.querySelectorAll(".card").forEach((c) => c.classList.toggle("on", c.id === id));
+    const els = [...document.querySelectorAll(`#${id} .in`)];
+    els.forEach((e) => e.classList.remove("go"));
+    els.forEach((e, i) => setTimeout(() => e.classList.add("go"), 150 + i * step));
+    return els.length;
+  };
+</script>
+</body>
+</html>

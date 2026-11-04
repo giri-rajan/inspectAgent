@@ -1,0 +1,16 @@
+.env
+**/.venv
+**/node_modules
+web/.next
+**/__pycache__
+**/.pytest_cache
+data/inspect.db
+data/uploads
+data/reports
+data/samples/kaggle
+.playwright-mcp
+.taste-skill
+.claude
+.agents
+demo
+scripts/demo

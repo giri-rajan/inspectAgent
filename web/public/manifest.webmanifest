@@ -1,0 +1,10 @@
+{
+  "name": "InspectAgent",
+  "short_name": "InspectAgent",
+  "description": "Zero-shot casting inspection with SAM 3.1 + Muse Spark",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#010102",
+  "theme_color": "#010102",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

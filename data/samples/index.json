@@ -1,0 +1,74 @@
+[
+ {
+  "file": "samples/sample_01.jpg",
+  "title": "Clean casting",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_02.jpg",
+  "title": "Porosity near vane",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_03.jpg",
+  "title": "Crack + burr",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_04.jpg",
+  "title": "Scratch only",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_05.jpg",
+  "title": "Rim burr",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_06.jpg",
+  "title": "Porosity + scratch",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_07.jpg",
+  "title": "Hairline crack",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_08.jpg",
+  "title": "Clean casting",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_09.jpg",
+  "title": "Gas porosity",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_10.jpg",
+  "title": "Mixed defects",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_11.jpg",
+  "title": "Clean casting",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ },
+ {
+  "file": "samples/sample_12.jpg",
+  "title": "Flash on edge",
+  "part_id": "IMP-200",
+  "source": "synthetic"
+ }
+]

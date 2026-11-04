@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/*
+ * Tokens follow DESIGN.md (Linear). Canvas, surface ladder, hairlines and the one lavender accent
+ * come straight from it; the tertiary grey is lifted from #62666d to #7d828b so it holds 4.5:1.
+ * Status hues are Linear's in-product status colours and only ever mark a verdict or disposition.
+ */
+@theme {
+  --font-sans: var(--font-inter), "SF Pro Display", -apple-system, system-ui, sans-serif;
+  --font-mono: var(--font-mono-jb), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --color-bg: #010102; /* canvas */
+  --color-surface: #0f1011; /* surface-1: cards, panels */
+  --color-raised: #141516; /* surface-2: nested panels, controls, selected */
+  --color-hover: #18191a; /* surface-3: hover */
+  --color-line: #23252a; /* hairline */
+  --color-line-strong: #34343a; /* hairline-strong: controls, focus */
+  --color-fg: #f7f8f8; /* ink */
+  --color-muted: #8a8f98; /* ink-subtle */
+  --color-faint: #7d828b; /* ink-tertiary, lifted for contrast */
+
+  --color-accent: #5e6ad2; /* lavender: brand mark, primary action, focus, main data element */
+  --color-accent-strong: #828fff; /* hover, and accent used as text on dark */
+
+  --color-pass: #4cb782;
+  --color-fail: #eb5757;
+  --color-rework: #f2994a;
+  --color-review: #4ea7fc;
+
+  --radius-xl: 8px;
+  --radius-2xl: 12px;
+
+  --animate-scan: scan 1.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+
+  @keyframes scan {
+    0% { transform: translateY(-10%); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(1000%); opacity: 0; }
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body {
+  font-feature-settings: "cv01", "cv11", "ss03";
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.015em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: rgb(94 106 210 / 0.45);
+}
+
+:focus-visible {
+  outline: 2px solid rgb(94 105 209 / 0.6);
+  outline-offset: 2px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+@utility card {
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
